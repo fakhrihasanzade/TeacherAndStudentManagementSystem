@@ -1,12 +1,11 @@
 package org.example;
 
-import entity.Student;
-import entity.Teacher;
-import enums.CourseYear;
-import enums.Position;
-import service.StudentService;
-import serviceİmpl.StudentServiceImpl;
-import serviceİmpl.TeacherServiceImpl;
+import org.example.model.entity.Student;
+import org.example.model.entity.Teacher;
+import org.example.model.enums.CourseYear;
+import org.example.model.enums.Position;
+import org.example.serviceİmpl.StudentServiceImpl;
+import org.example.serviceİmpl.TeacherServiceImpl;
 
 import java.sql.*;
 

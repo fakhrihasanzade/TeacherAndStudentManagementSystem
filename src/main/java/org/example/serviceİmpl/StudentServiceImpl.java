@@ -1,15 +1,14 @@
-package serviceİmpl;
+package org.example.serviceİmpl;
 
-import com.mysql.cj.conf.ConnectionPropertiesTransform;
-import database.DatabaseConnection;
-import entity.Student;
-import enums.CourseYear;
-import exception.NullPoitException;
-import service.CommonService;
-import service.StudentService;
-import util.FileWrite;
+import com.mysql.cj.protocol.FullReadInputStream;
+import org.example.database.DatabaseConnection;
+import org.example.model.entity.Student;
+import org.example.model.enums.CourseYear;
+import org.example.exception.NullPoitException;
+import org.example.service.CommonService;
+import org.example.service.StudentService;
+import org.example.util.FileWrite;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class StudentServiceImpl implements CommonService<Student>, StudentServic
 
             while (resultSet.next()) {
 
-                Student st = new Student(
+                Student student = new Student(
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getInt(3),
@@ -38,7 +37,8 @@ public class StudentServiceImpl implements CommonService<Student>, StudentServic
                         resultSet.getDouble(7),
                         CourseYear.valueOf(resultSet.getString(8))
                 );
-                students.add(st);
+
+                students.add(student);
                 statement.close();
                 resultSet.close();
 
@@ -99,7 +99,7 @@ public class StudentServiceImpl implements CommonService<Student>, StudentServic
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            FileWrite.fileWriteFromService("StudentInfo", element.toString());
+            FileWrite.fileWriteFromService("StudentCreate.txt", element.toString());
         } catch (SQLException e) {
             try {
                 throw new SQLException("Student isn't added");
@@ -129,7 +129,7 @@ public class StudentServiceImpl implements CommonService<Student>, StudentServic
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            FileWrite.fileWriteFromService("StudentInfo", element.toString());
+            FileWrite.fileWriteFromService("StudentUpdate.txt", element.toString());
         } catch (SQLException e) {
             try {
                 throw new SQLException(id.toString() + "th student isn't updated");
@@ -151,7 +151,7 @@ public class StudentServiceImpl implements CommonService<Student>, StudentServic
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            FileWrite.fileWriteFromService("StudentInfo", id.toString() + "th element deleted");
+            FileWrite.fileWriteFromService("DeletedStudent.txt", id.toString() + "th element deleted");
         } catch (SQLException e) {
             try {
                 throw new NullPoitException(id.toString() + "th student isn't exist");

@@ -1,7 +1,7 @@
-package service;
+package org.example.service;
 
-import entity.Student;
-import enums.CourseYear;
+import org.example.model.entity.Student;
+import org.example.model.enums.CourseYear;
 
 import java.sql.SQLException;
 import java.util.List;

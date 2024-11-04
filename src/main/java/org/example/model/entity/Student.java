@@ -1,6 +1,6 @@
-package entity;
+package org.example.model.entity;
 
-import enums.CourseYear;
+import org.example.model.enums.CourseYear;
 
 public class Student extends User {
 

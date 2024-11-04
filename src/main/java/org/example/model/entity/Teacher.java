@@ -1,6 +1,6 @@
-package entity;
+package org.example.model.entity;
 
-import enums.Position;
+import org.example.model.enums.Position;
 
 public class Teacher extends User {
 

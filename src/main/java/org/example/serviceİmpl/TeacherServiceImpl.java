@@ -1,12 +1,12 @@
-package serviceİmpl;
+package org.example.serviceİmpl;
 
-import database.DatabaseConnection;
-import entity.Teacher;
-import enums.Position;
-import exception.NullPoitException;
-import service.CommonService;
-import service.TeacherService;
-import util.FileWrite;
+import org.example.database.DatabaseConnection;
+import org.example.model.entity.Teacher;
+import org.example.model.enums.Position;
+import org.example.exception.NullPoitException;
+import org.example.service.CommonService;
+import org.example.service.TeacherService;
+import org.example.util.FileWrite;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +22,7 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
         List<Teacher> teachers = new ArrayList<>();
 
         Connection connection = DatabaseConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("select *from Teacher");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from Teacher");
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
 
@@ -47,26 +47,26 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
     @Override
     public Teacher getByID(Integer id) {
 
-        try{
-        Connection connection = DatabaseConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "select *from Teacher where id=?");
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        Teacher teacher = null;
-        if (resultSet.next()) {
-            teacher = new Teacher(
-                    resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getInt(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getDouble(6),
-                    resultSet.getString(7),
-                    Position.valueOf(resultSet.getString(8))
-            );
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("" +
+                    "select *from Teacher where id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Teacher teacher = null;
+            if (resultSet.next()) {
+                teacher = new Teacher(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getInt(3),
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        resultSet.getDouble(6),
+                        resultSet.getString(7),
+                        Position.valueOf(resultSet.getString(8))
+                );
 
-        }
+            }
             return teacher;
         } catch (SQLException e) {
             try {
@@ -96,7 +96,7 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            FileWrite.fileWriteFromService("TeacherInfo", element.toString());
+            FileWrite.fileWriteFromService("TeacherCreate.txt", element.toString());
         } catch (SQLException e) {
             try {
                 throw new NullPoitException("Teacher isn't created");
@@ -110,27 +110,27 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
     @Override
     public Teacher updateByID(Integer id, Teacher element) {
 
-        try{
-        Connection connection = DatabaseConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "\"update Student set full_name=?,age=?,email=?, phone_number=?,salary=?,subject=?," +
-                "position=? where id=?\"");
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("" +
+                    "\"update Student set full_name=?,age=?,email=?, phone_number=?,salary=?,subject=?," +
+                    "position=? where id=?\"");
 
-        preparedStatement.setString(1, element.getFullName());
-        preparedStatement.setInt(2, element.getAge());
-        preparedStatement.setString(3, element.getEmail());
-        preparedStatement.setString(4, element.getPhoneNumber());
-        preparedStatement.setDouble(5, element.getSalary());
-        preparedStatement.setString(6, element.getSubject());
-        preparedStatement.setString(7, element.getPosition().name());
-        preparedStatement.setInt(8, element.getId());
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
+            preparedStatement.setString(1, element.getFullName());
+            preparedStatement.setInt(2, element.getAge());
+            preparedStatement.setString(3, element.getEmail());
+            preparedStatement.setString(4, element.getPhoneNumber());
+            preparedStatement.setDouble(5, element.getSalary());
+            preparedStatement.setString(6, element.getSubject());
+            preparedStatement.setString(7, element.getPosition().name());
+            preparedStatement.setInt(8, element.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
 
-        FileWrite.fileWriteFromService("TeacherInfo",element.toString());
+            FileWrite.fileWriteFromService("TeacherUpdate.txt", element.toString());
         } catch (SQLException e) {
             try {
-                throw new NullPoitException(id.toString()+"th teacher isn't updated");
+                throw new NullPoitException(id.toString() + "th teacher isn't updated");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -150,10 +150,10 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            FileWrite.fileWriteFromService("TeacherInfo", id.toString() + "th teacher deleted");
-        }catch (SQLException e) {
+            FileWrite.fileWriteFromService("TeacherDelete.txt", id.toString() + "th teacher deleted");
+        } catch (SQLException e) {
             try {
-                throw new NullPoitException(id.toString()+"th teacher isn't deleted");
+                throw new NullPoitException(id.toString() + "th teacher isn't deleted");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -189,9 +189,9 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
 
             preparedStatement.close();
             resultSet.close();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             try {
-                throw new NullPoitException(subject+" isn't exist");
+                throw new NullPoitException(subject + " isn't exist");
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -201,7 +201,7 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
     }
 
     @Override
-    public List<Teacher> getBySalaryBound(Integer lowerSalary, Integer upperSalary) {
+    public List<Teacher> getTeacherBySalaryBound(Integer lowerSalary, Integer upperSalary) {
 
         List<Teacher> teachers = new ArrayList<>();
 
@@ -231,7 +231,7 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
 
             preparedStatement.close();
             resultSet.close();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             try {
                 throw new NullPoitException("There are no elements in this interval");
             } catch (SQLException ex) {
@@ -270,7 +270,7 @@ public class TeacherServiceImpl implements CommonService<Teacher>, TeacherServic
 
             preparedStatement.close();
             resultSet.close();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             try {
                 throw new NullPoitException("doesn't have a teacher older than this in database");
             } catch (SQLException ex) {

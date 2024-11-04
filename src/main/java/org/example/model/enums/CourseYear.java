@@ -1,4 +1,4 @@
-package enums;
+package org.example.model.enums;
 
 public enum CourseYear {
 
